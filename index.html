@@ -333,7 +333,7 @@
 
 <script>
   // ── CONFIG ──
-  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw3YsACsh_TtRKDu_eKrmRLeCX-FqUkgWQrecwI2im5K0Lm8_CpX8A1uGZTywFgHA3W1g/exec";
+  const APPS_SCRIPT_URL = "https://agzc.app.n8n.cloud/webhook/d25ef76a-a357-4b58-9613-8b0daa9059ed";
 
   function validate() {
     let ok = true;
@@ -371,16 +371,16 @@
     btn.classList.add("loading");
 
     try {
-      const params = new URLSearchParams({
-        fullName: document.getElementById("fullName").value.trim(),
-        email:    document.getElementById("email").value.trim(),
-        phone:    document.getElementById("phone").value.trim(),
-        address:  document.getElementById("address").value.trim()
-      });
-
-      await fetch(APPS_SCRIPT_URL + "?" + params.toString(), {
-        method: "GET",
-        mode: "no-cors"
+      await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: document.getElementById("fullName").value.trim(),
+          email:    document.getElementById("email").value.trim(),
+          phone:    document.getElementById("phone").value.trim(),
+          address:  document.getElementById("address").value.trim()
+        })
       });
       showSuccess();
     } catch (err) {
