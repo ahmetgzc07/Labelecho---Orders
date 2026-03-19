@@ -335,7 +335,7 @@
   // ── CONFIG ──
   const AIRTABLE_TOKEN  = "patgaWjtBFsMnIrNa.795613aea51c71a5950409c48b943a300c5778464eb1dd3dd42fca009635fc1c";
   const AIRTABLE_BASE   = "appRYpRvBcKakwv0B";
-  const AIRTABLE_TABLE  = "tblOeyhfUN0DsZmsb";
+  const AIRTABLE_TABLE  = "Orders";
 
   function validate() {
     let ok = true;
@@ -389,12 +389,12 @@
         })
       });
 
-      if (!res.ok) throw new Error("Airtable error");
+      if (!res.ok) { const e = await res.text(); throw new Error(e); }
       showSuccess();
     } catch (err) {
       btn.disabled = false;
       btn.classList.remove("loading");
-      alert("Something went wrong. Please try again.");
+      alert("Hata: " + err.message);
     }
   }
 
