@@ -371,16 +371,16 @@
     btn.classList.add("loading");
 
     try {
-      const formData = new FormData();
-      formData.append("fullName", document.getElementById("fullName").value.trim());
-      formData.append("email",    document.getElementById("email").value.trim());
-      formData.append("phone",    document.getElementById("phone").value.trim());
-      formData.append("address",  document.getElementById("address").value.trim());
+      const params = new URLSearchParams({
+        fullName: document.getElementById("fullName").value.trim(),
+        email:    document.getElementById("email").value.trim(),
+        phone:    document.getElementById("phone").value.trim(),
+        address:  document.getElementById("address").value.trim()
+      });
 
-      await fetch(APPS_SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        body: formData
+      await fetch(APPS_SCRIPT_URL + "?" + params.toString(), {
+        method: "GET",
+        mode: "no-cors"
       });
       showSuccess();
     } catch (err) {
