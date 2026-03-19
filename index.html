@@ -333,9 +333,7 @@
 
 <script>
   // ── CONFIG ──
-  const AIRTABLE_TOKEN  = "patgaWjtBFsMnIrNa.795613aea51c71a5950409c48b943a300c5778464eb1dd3dd42fca009635fc1c";
-  const AIRTABLE_BASE   = "appRYpRvBcKakwv0B";
-  const AIRTABLE_TABLE  = "Orders";
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyH558wpW3IwNmlOehH__2ybtvB8DkaQQpp3o5XPJPkCkmwmfeyrOi7Gu56fy0CMncKKw/exec";
 
   function validate() {
     let ok = true;
@@ -373,23 +371,17 @@
     btn.classList.add("loading");
 
     try {
-      const res = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_TABLE}`, {
+      await fetch(APPS_SCRIPT_URL, {
         method: "POST",
-        headers: {
-          "Authorization": `Bearer ${AIRTABLE_TOKEN}`,
-          "Content-Type": "application/json"
-        },
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          fields: {
-            "Full Name": document.getElementById("fullName").value.trim(),
-            "Email":     document.getElementById("email").value.trim(),
-            "Phone":     document.getElementById("phone").value.trim(),
-            "Address":    document.getElementById("address").value.trim(),
-          }
+          fullName: document.getElementById("fullName").value.trim(),
+          email:    document.getElementById("email").value.trim(),
+          phone:    document.getElementById("phone").value.trim(),
+          address:  document.getElementById("address").value.trim()
         })
       });
-
-      if (!res.ok) { const e = await res.text(); throw new Error(e); }
       showSuccess();
     } catch (err) {
       btn.disabled = false;
